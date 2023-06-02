@@ -19,7 +19,7 @@ const char NODETYPE[3] = {' ', 's', 'c'};
 const int NUMSHOW[10][7] = {
     {1, 1, 1, 0, 1, 1, 1}, {0, 0, 1, 0, 0, 1, 0}, {1, 0, 1, 1, 1, 0, 1},
     {1, 0, 1, 1, 0, 1, 1}, {0, 1, 1, 1, 0, 1, 0}, {1, 1, 0, 1, 1, 1, 1},
-    {1, 1, 0, 1, 1, 1, 1}, {1, 0, 1, 0, 0, 1, 1}, {1, 1, 1, 1, 1, 1, 1},
+    {1, 1, 0, 1, 1, 1, 1}, {1, 0, 1, 0, 0, 1, 0}, {1, 1, 1, 1, 1, 1, 1},
     {1, 1, 1, 1, 0, 1, 1},
 };
 const char resourceStr[6][10] = {"None", "wood",  "bricks",
@@ -189,7 +189,35 @@ void shuffleInt(int *p, int n, int times) {
         p[b] = tmp;
     }
 }
-static char numberofPiece(int x, int y, int num) {}
+static char numberofPiece(int x, int y, int num) {
+    // printf("%d %d:%d\n", x, y, num);
+    if (x == 0) {
+        if (y == 0) {
+            return ' ';
+        } else if (y == 1) {
+            return NUMSHOW[num][0] ? '_' : ' ';
+        } else {
+            return ' ';
+        }
+    } else if (x == 1) {
+        if (y == 0) {
+            return NUMSHOW[num][1] ? '|' : ' ';
+
+        } else if (y == 1) {
+            return NUMSHOW[num][3] ? '_' : ' ';
+        } else {
+            return NUMSHOW[num][2] ? '|' : ' ';
+        }
+    } else {
+        if (y == 0) {
+            return NUMSHOW[num][4] ? '|' : ' ';
+        } else if (y == 1) {
+            return NUMSHOW[num][6] ? '_' : ' ';
+        } else {
+            return NUMSHOW[num][5] ? '|' : ' ';
+        }
+    }
+}
 static void printpart(const piece *p, int l, int r, int t, int tl, int size,
                       int space) {
     for (int i = 0; i < size; ++i) {
@@ -310,10 +338,16 @@ static void printpart(const piece *p, int l, int r, int t, int tl, int size,
                     printf("\e[48;5;%dm%c\e[0m", PIECECOLOR[p[k].type],
                            numberofPiece(i, j - size * 3, p[k].number / 10));
                 } else if (j > (size)*3 + 3 && j < (size)*3 + 7 && i < 3) {
-                    printf("\e[48;5;%dm%c\e[0m", PIECECOLOR[p[k].type],
-                           numberofPiece(i, j - size * 3, p[k].number % 10));
+                    printf(
+                        "\e[48;5;%dm%c\e[0m", PIECECOLOR[p[k].type],
+                        numberofPiece(i, j - size * 3 - 4, p[k].number % 10));
                 } else {
-                    printf("\e[48;5;%dm \e[0m", PIECECOLOR[p[k].type]);
+                    if (j < (size)*3 - 3 && j >= (size)*3 - 5 && i >= 1 &&
+                        i <= 2 && p[k].robber) {
+                        printf("\e[48;5;240m \e[0m");
+                    } else {
+                        printf("\e[48;5;%dm \e[0m", PIECECOLOR[p[k].type]);
+                    }
                 }
             }
             if (k == r) {
