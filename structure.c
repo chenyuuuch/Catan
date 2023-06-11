@@ -12,7 +12,7 @@
 #include "panda.h"
 #include "vectorInt.h"
 const int TEAMCOLOR[5] = {255, 93, 75, 82, 196};
-const int PIECECOLOR[6] = {11, 28, 202, 15, 94, 246};
+const int PIECECOLOR[6] = {11, 28, 202, 145, 94, 237};
 const int PORTCOLOR[6] = {241, 136, 255, 9, 226, 246};
 const char PORTTEXT[6] = {'?', 'l', 'w', 'b', 'h', 'm'};
 const char NODETYPE[3] = {' ', 's', 'c'};
@@ -317,6 +317,7 @@ static void printpart(const piece *p, int l, int r, int t, int tl, int size,
                 if (r == 6 || r == 18)
                     for (int j = 0; j < (size)*3; ++j)
                         printf("\e[48;5;17m \e[0m");
+                ;
             }
         }
         for (int j = 0; j < space; ++j) printf("\e[48;5;17m \e[0m");
@@ -401,9 +402,9 @@ static void printpart(const piece *p, int l, int r, int t, int tl, int size,
                        NODETYPE[p[r].linkedNode[5]->type]);
             else
                 printf("\e[48;5;17m \e[0m");
-            for (int j = 0; j < 6 * size + space; ++j)
-                printf("\e[48;5;17m \e[0m");
-
+            if (r == 18)
+                for (int j = 0; j < (size)*6; ++j) printf("\e[48;5;17m \e[0m");
+            for (int j = 0; j < space; ++j) printf("\e[48;5;17m \e[0m");
             printf("\n");
         }
     }
