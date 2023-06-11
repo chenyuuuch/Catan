@@ -20,41 +20,15 @@ const int NUMBER[18] = {5, 2, 6,  3, 8, 10, 9, 12, 11,
 extern int TEAMCOLOR[5];
 extern char resourceStr[6][10];
 
-static void initPlayer(player *p) {
-    p->card = create_vector_vectorInt();
-    for (int i = 1; i <= 5; ++i) p->resource[i] = 0;
-    p->knight = p->road = p->Score = 0;
-    p->haveNode = create_vector_vectorInt();
-    p->haveSide = create_vector_vectorInt();
-    p->havePort = create_vector_vectorInt();
-    p->type = 0;
-}
-static void freePlayer(player *p) {
-    p->haveNode->free(p->haveNode);
-    p->haveSide->free(p->haveSide);
-    p->havePort->free(p->havePort);
-    p->card->free(p->card);
-    free(p);
-}
-static void shufflePlayer(player *p, int n, int times) {
-    srand(time(NULL));
-    for (int i = 0; i < times; ++i) {
-        int a = rand() % n;
-        int b = rand() % n;
-        player tmp = p[a];
-        p[a] = p[b];
-        p[b] = tmp;
-    }
-}
-static int dicePiece[13][2] = {0};
-static int desertLoc = -1;
-static node corner[54];
-static side edge[72];
-static port tradePort[9];
-static player gamePlayer[6];
-static piece land[19];
-static int playerNumber = 0;
-static int developCard[25];
+extern int dicePiece[13][2] = {0};
+extern int desertLoc = -1;
+extern node corner[54];
+extern side edge[72];
+extern port tradePort[9];
+extern player gamePlayer[6];
+extern piece land[19];
+extern int playerNumber = 0;
+extern int developCard[25];
 void setUpGame() {
     while (1) {
         printf("how mamy player?");

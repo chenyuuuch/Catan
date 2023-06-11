@@ -27,6 +27,15 @@ const char resourceStr[6][10] = {"None", "wood",  "bricks",
 const char cardtoString[10][16] = {
     "None",   "Knight",    "Monopoly", "Year Of Plenty", "Road Building",
     "Chapel", "Greathall", "Market",   "Library",        "University"};
+int dicePiece[13][2] = {0};
+int desertLoc = -1;
+node corner[54];
+side edge[72];
+port tradePort[9];
+player gamePlayer[6];
+piece land[19];
+int playerNumber = 0;
+int developCard[25];
 void initGame(piece *p, node *n, side *s) {
     // corner bind
     for (int i = 0; i < 19; ++i) {
@@ -442,5 +451,31 @@ void giveResource(piece *land, int index, player *p, int playerNum) {
                 }
             }
         }
+    }
+}
+static void initPlayer(player *p) {
+    p->card = create_vector_vectorInt();
+    for (int i = 1; i <= 5; ++i) p->resource[i] = 0;
+    p->knight = p->road = p->Score = 0;
+    p->haveNode = create_vector_vectorInt();
+    p->haveSide = create_vector_vectorInt();
+    p->havePort = create_vector_vectorInt();
+    p->type = 0;
+}
+static void freePlayer(player *p) {
+    p->haveNode->free(p->haveNode);
+    p->haveSide->free(p->haveSide);
+    p->havePort->free(p->havePort);
+    p->card->free(p->card);
+    free(p);
+}
+static void shufflePlayer(player *p, int n, int times) {
+    srand(time(NULL));
+    for (int i = 0; i < times; ++i) {
+        int a = rand() % n;
+        int b = rand() % n;
+        player tmp = p[a];
+        p[a] = p[b];
+        p[b] = tmp;
     }
 }
