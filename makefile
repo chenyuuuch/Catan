@@ -1,2 +1,2 @@
 all:
-	gcc structure.c panda.c main.c -o main
+	gcc vectorInt.c structure.c panda.c main.c -o main

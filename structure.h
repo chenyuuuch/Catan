@@ -1,6 +1,7 @@
 #ifndef _STRUCTURE_H
 #define _STRUCTURE_H
 #include "panda.h"
+#include "vectorInt.h"
 struct _node;
 struct _side;
 struct _piece;
@@ -60,10 +61,21 @@ typedef struct _port {
     int type;
     int request;
 } port;
+typedef struct _player {
+    vectorInt *haveNode;
+    vectorInt *haveSide;
+    vectorInt *havePort;
+    int Score;
+    int knight;
+    int road;
+    enum TEAM type;
+    vectorInt *card;
+    int resource[6];
+} player;
 void initGame(piece *p, node *n, side *s);
 int rollDice();
 void shuffle(piece *p, int n, int times);
 void shufflePort(port *p, int n, int times);
 void shuffleInt(int *p, int n, int times);
-void printMap(const piece *p, int n, const port *t);
+void printMap(const piece *p, int n, const port *t, int size, int space);
 #endif
