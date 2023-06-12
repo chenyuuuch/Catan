@@ -6,7 +6,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-
 // #include "panda.h"
 #include "structure.h"
 
@@ -208,7 +207,7 @@ int monopoly_card(player gamePlayer[6], int playerSum, int playerNum) //拿取�
     int resourceType;
     while(1)
     {
-        printf("請輸入要拿取的資源種類：\n");
+        printf("Please enter the type of resource you want to fetch：\n");
         printf("1. WOOD\n");
         printf("2. BRICKS\n");
         printf("3. WOOL\n");
@@ -217,7 +216,7 @@ int monopoly_card(player gamePlayer[6], int playerSum, int playerNum) //拿取�
         scanf("%d", &resourceType);
         if (resourceType < 1 || resourceType > 5)
         {
-            printf("輸入錯誤，請重新輸入\n");
+            printf("Input errors, please re-enter\n");
         }
         else
         {
@@ -239,7 +238,7 @@ int yearofplenty_card(player *p)  //拿取兩張任意資源
     int resourceType1, resourceType2;
     while(1)
     {
-        printf("請輸入要拿取的第一種資源種類：\n");
+        printf("Please enter the first type of resource to get：\n");
         printf("1. WOOD\n");
         printf("2. BRICKS\n");
         printf("3. WOOL\n");
@@ -248,7 +247,7 @@ int yearofplenty_card(player *p)  //拿取兩張任意資源
         scanf("%d", &resourceType1);
         if (resourceType1 < 1 || resourceType1 > 5)
         {
-            printf("輸入錯誤，請重新輸入\n");
+            printf("Input errors, please re-enter\n");
         }
         else
         {
@@ -257,7 +256,7 @@ int yearofplenty_card(player *p)  //拿取兩張任意資源
     }
     while(1)
     {
-        printf("請輸入要拿取的第二種資源種類：\n");
+        printf("Please enter the second type of resource to get：\n");
         printf("1. WOOD\n");
         printf("2. BRICKS\n");
         printf("3. WOOL\n");
@@ -266,7 +265,7 @@ int yearofplenty_card(player *p)  //拿取兩張任意資源
         scanf("%d", &resourceType2);
         if (resourceType2 < 1 || resourceType2 > 5)
         {
-            printf("輸入錯誤，請重新輸入\n");
+            printf("Input errors, please re-enter\n");
         }
         else
         {
@@ -283,20 +282,20 @@ int roadbuilding_card(player *p, piece land[19]) //免費建造兩條路 //輸�
 {
     int land_pos1, land_pos2;
     int linkedNode_pos1, linkedNode_pos2;
-    printf("請輸入要蓋路的第一個板塊編號及路編號：\n");
+    printf("Please enter the first plate number and road number to build the road：\n");
     scanf("%d %d", &land_pos1, &linkedNode_pos1);
     //build_road_free(p, land_pos1, linkedNode_pos1, land);
     while(!(build_road_free(p, land_pos1, linkedNode_pos1, land)))
     {
-        printf("請輸入要蓋路的第一個板塊編號及路編號：\n");
+        printf("Please enter the first plate number and road number to build the road：\n");
         scanf("%d %d", &land_pos1, &linkedNode_pos1);
     }
-    printf("請輸入要蓋路的第二個板塊編號及路編號：\n");
+    printf("Please enter the second plate number and road number to build the road：\n");
     scanf("%d %d", &land_pos2, &linkedNode_pos2);
     //build_road_free(p, land_pos2, linkedNode_pos2, land);
     while(!(build_road_free(p, land_pos2, linkedNode_pos2, land)))
     {
-        printf("請輸入要蓋路的第二個板塊編號及路編號：\n");
+        printf("Please enter the second plate number and road number to build the road：\n");
         scanf("%d %d", &land_pos2, &linkedNode_pos2);
     }
     
@@ -319,7 +318,7 @@ int knight_card(player *p, player gamePlayer[6], int playerSum, piece land[19]) 
     }
     while (1)
     {
-        printf("請輸入要移動強盜的板塊編號：\n");
+        printf("Please enter the plate number where you want to move the robber:\n");
         scanf("%d", &robber_pos);
         if (robber_pos == robber_pos_origin)
         {
@@ -337,7 +336,7 @@ int knight_card(player *p, player gamePlayer[6], int playerSum, piece land[19]) 
         int check1 = 1;
         int check2 = 1;
         int check3 = 0;
-        printf("請輸入要奪取資源的玩家編號：\n");
+        printf("Please enter the ID of the player that you wants to seize resources:\n");
         scanf("%d", &robbed_player);
         if (robbed_player <= 0 && robbed_player > playerSum )
         {
