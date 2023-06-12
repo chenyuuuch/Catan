@@ -79,7 +79,10 @@ void shuffle(piece *p, int n, int times);
 void shufflePort(port *p, int n, int times);
 void shuffleInt(int *p, int n, int times);
 void printMap(const piece *p, int n, const port *t, int size, int space);
-static void initPlayer(player *p);
-static void freePlayer(player *p);
-static void shufflePlayer(player *p, int n, int times);
+void initPlayer(player *p);
+void freePlayer(player *p);
+void shufflePlayer(player *p, int n, int times);
+void giveResource(piece *land, int index, player *p, int playerNum);
+void robber(piece *land, int *robberLoc, int locate);
+void chooseRobber(player *p, int index);
 #endif

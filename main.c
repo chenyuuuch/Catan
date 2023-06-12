@@ -8,20 +8,19 @@
 #include <time.h>
 
 // #include "panda.h"
+#include "bot.h"
 #include "structure.h"
 #include "vectorInt.h"
 #define SEASIZE 2
 #define MAPSIZE 4
-const int ORDER[19] = {16, 17, 18, 15, 11, 6, 2, 1, 0, 3,
-                       7,  12, 13, 14, 10, 5, 4, 8, 9};
-const int NUMBER[18] = {5, 2, 6,  3, 8, 10, 9, 12, 11,
-                        4, 8, 10, 9, 4, 5,  6, 3,  11};
+extern const int ORDER[19];
+extern const int NUMBER[18];
 // const int TEAMCOLOR[5] = {255, 9, 75, 82, 196};
 extern int TEAMCOLOR[5];
 extern char resourceStr[6][10];
 
 extern int dicePiece[13][2];
-extern int desertLoc;
+extern int robberLoc;
 extern node corner[54];
 extern side edge[72];
 extern port tradePort[9];
@@ -29,15 +28,15 @@ extern player gamePlayer[6];
 extern piece land[19];
 extern int playerNumber;
 extern int developCard[25];
+extern int nextdevelopCard;
 void setUpGame() {
     while (1) {
         printf("how mamy player?");
         scanf("%d", &playerNumber);
         if (playerNumber <= 4 && playerNumber >= 2) {
             break;
-        } else {
-            printf("it shoud in [2,4]\n");
         }
+        printf("it shoud in [2,4]\n");
     }
     for (int i = 0; i < 14; ++i) developCard[i] = KNIGHT;
     for (int i = 14; i < 20; i += 2)
@@ -68,7 +67,7 @@ void setUpGame() {
     int cnt = 0;
     for (int i = 0; i < 19; ++i) {
         if (land[ORDER[i]].type == DESERT) {
-            desertLoc = ORDER[i];
+            robberLoc = ORDER[i];
             land[ORDER[i]].number = 7;
             land[ORDER[i]].robber = 1;
         } else {
@@ -170,9 +169,9 @@ void setUpGame() {
             if (land[i].linkedSide[j]->belong == PUBLIC) {
                 int check = 0;
                 for (int l = 0; l < 2; ++l) {
-                    printf("%d %d\n",
-                           land[i].linkedSide[j]->linkedNode[l]->index,
-                           land[i].linkedSide[j]->linkedNode[l]->belong);
+                    // printf("%d %d\n",
+                    //        land[i].linkedSide[j]->linkedNode[l]->index,
+                    //        land[i].linkedSide[j]->linkedNode[l]->belong);
                     if (land[i].linkedSide[j]->linkedNode[l] != NULL &&
                         land[i].linkedSide[j]->linkedNode[l]->belong ==
                             gamePlayer[k].type) {
@@ -286,25 +285,32 @@ int main() {
             }
         }
         while (1) {
-            if (state == 0) {  // doro
+            if (state == 0) {  // draw
                 printf("1.roll dice\n");
                 if (haveK) {
                     printf("2. use Knight Card\n");
                 }
                 printf("your step:");
-                scanf("%d", &step);
+                if (gamePlayer[i].bot)
+                    state = botOption(state, gamePlayer, i, land);
+                else
+                    scanf("%d", &step);
 
                 if (step == 1) {
                     number = rollDice();
                     if (number == 7) {
                         chooseRobber(gamePlayer, i);
                     } else {
-                        giveResource(&(gamePlayer[i]), number);
+                        for (int j = 0; j < 19; ++j) {
+                            if (!land[j].robber && land[j].number == number)
+                                giveResource(land, j, gamePlayer, i);
+                        }
                     }
                     state = 1;
                 } else if (step == 2 && haveK) {
-                    chooseRobber(gamePlayer[i], i);
+                    chooseRobber(gamePlayer, i);
                 }
+            } else if (state == 2) {
             }
         }
     }

@@ -9,8 +9,13 @@
 #include <string.h>
 #include <time.h>
 
+#include "bot.h"
 #include "panda.h"
 #include "vectorInt.h"
+const int ORDER[19] = {16, 17, 18, 15, 11, 6, 2, 1, 0, 3,
+                       7,  12, 13, 14, 10, 5, 4, 8, 9};
+const int NUMBER[18] = {5, 2, 6,  3, 8, 10, 9, 12, 11,
+                        4, 8, 10, 9, 4, 5,  6, 3,  11};
 const int TEAMCOLOR[5] = {255, 93, 75, 82, 196};
 const int PIECECOLOR[6] = {11, 28, 202, 145, 94, 237};
 const int PORTCOLOR[6] = {241, 136, 255, 9, 226, 246};
@@ -28,7 +33,7 @@ const char cardtoString[10][16] = {
     "None",   "Knight",    "Monopoly", "Year Of Plenty", "Road Building",
     "Chapel", "Greathall", "Market",   "Library",        "University"};
 int dicePiece[13][2] = {0};
-int desertLoc = -1;
+int robberLoc = -1;
 node corner[54];
 side edge[72];
 port tradePort[9];
@@ -36,6 +41,7 @@ player gamePlayer[6];
 piece land[19];
 int playerNumber = 0;
 int developCard[25];
+int nextdevelopCard = 0;
 void initGame(piece *p, node *n, side *s) {
     // corner bind
     for (int i = 0; i < 19; ++i) {
@@ -425,9 +431,8 @@ void printMap(const piece *p, int n, const port *t, int size, int space) {
     printpart(p, 12, 15, 3, t[4].type, size, space);
     printpart(p, 16, 18, 5, t[7].type, size, space);
 }
-void robber(piece *land, int *robberLoc) {
+void robber(piece *land, int *robberLoc, int locate) {
     printf("Robber!\n");
-    int locate;
     while (1) {
         printf("choice locate:");
         if (locate == *robberLoc)
@@ -451,5 +456,22 @@ void giveResource(piece *land, int index, player *p, int playerNum) {
                 }
             }
         }
+    }
+}
+void chooseRobber(player *p, int index) {
+    int locate;
+    if (p[index].bot) {
+        locate = botRobber(land, index);
+    } else {
+        printf("which land you want to robber?");
+        while (1) {
+            scanf("%d", &locate);
+            if (locate < 19 && locate >= 0 && !land[locate].robber) break;
+            printf("locate should in [0,18] and not been robber");
+        }
+    }
+    robber(land, &robberLoc, locate);
+    if (p[index].bot) {
+    } else {
     }
 }
