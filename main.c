@@ -9,25 +9,17 @@
 
 // #include "panda.h"
 #include "structure.h"
+#include "vectorInt.h"
+#define SEASIZE 2
+#define MAPSIZE 4
 const int ORDER[19] = {16, 17, 18, 15, 11, 6, 2, 1, 0, 3,
                        7,  12, 13, 14, 10, 5, 4, 8, 9};
 const int NUMBER[18] = {5, 2, 6,  3, 8, 10, 9, 12, 11,
                         4, 8, 10, 9, 4, 5,  6, 3,  11};
-Vector(int, vectorInt);
 // const int TEAMCOLOR[5] = {255, 9, 75, 82, 196};
 extern int TEAMCOLOR[5];
 extern char resourceStr[6][10];
-typedef struct _player {
-    vectorInt *haveNode;
-    vectorInt *haveSide;
-    vectorInt *havePort;
-    int Score;
-    int knight;
-    int road;
-    enum TEAM type;
-    vectorInt *card;
-    int resource[6];
-} player;
+
 static void initPlayer(player *p) {
     p->card = create_vector_vectorInt();
     for (int i = 1; i <= 5; ++i) p->resource[i] = 0;
@@ -558,7 +550,7 @@ void setUpGame() {
     int i, j;
     for (int k = 0; k < playerNumber; ++k) {
         while (1) {
-            printMap(land, 19, tradePort);
+            printMap(land, 19, tradePort, MAPSIZE, SEASIZE);
             printf("\e[38;5;%dmplayer %d\e[0m choose your first swttlement:",
                    TEAMCOLOR[gamePlayer[k].type], gamePlayer[k].type);
             printf(
@@ -590,7 +582,7 @@ void setUpGame() {
             }
         }
         while (1) {
-            printMap(land, 19, tradePort);
+            printMap(land, 19, tradePort, MAPSIZE, SEASIZE);
             printf("\e[38;5;%dmplayer %d\e[0m choose your first road:",
                    TEAMCOLOR[gamePlayer[k].type], gamePlayer[k].type);
             printf(
@@ -629,7 +621,7 @@ void setUpGame() {
     }
     for (int k = playerNumber - 1; k >= 0; --k) {
         while (1) {
-            printMap(land, 19, tradePort);
+            printMap(land, 19, tradePort, MAPSIZE, SEASIZE);
             printf("\e[38;5;%dmplayer %d\e[0m choose your second swttlement:",
                    TEAMCOLOR[gamePlayer[k].type], gamePlayer[k].type);
             printf(
@@ -670,7 +662,7 @@ void setUpGame() {
             }
         }
         while (1) {
-            printMap(land, 19, tradePort);
+            printMap(land, 19, tradePort, MAPSIZE, SEASIZE);
             printf("\e[38;5;%dmplayer %d\e[0m choose your second road:",
                    TEAMCOLOR[gamePlayer[k].type], gamePlayer[k].type);
             printf(
