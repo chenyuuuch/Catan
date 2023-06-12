@@ -70,6 +70,7 @@ typedef struct _player {
     int road;
     enum TEAM type;
     vectorInt *card;
+    bool bot;
     int resource[6];
 } player;
 void initGame(piece *p, node *n, side *s);

@@ -20,14 +20,14 @@ const int NUMBER[18] = {5, 2, 6,  3, 8, 10, 9, 12, 11,
 extern int TEAMCOLOR[5];
 extern char resourceStr[6][10];
 
-extern int dicePiece[13][2] = {0};
-extern int desertLoc = -1;
+extern int dicePiece[13][2];
+extern int desertLoc;
 extern node corner[54];
 extern side edge[72];
 extern port tradePort[9];
 extern player gamePlayer[6];
 extern piece land[19];
-extern int playerNumber = 0;
+extern int playerNumber;
 extern int developCard[25];
 void setUpGame() {
     while (1) {
@@ -297,13 +297,13 @@ int main() {
                 if (step == 1) {
                     number = rollDice();
                     if (number == 7) {
-                        robber();
+                        chooseRobber(gamePlayer, i);
                     } else {
-                        giveResource(number);
+                        giveResource(&(gamePlayer[i]), number);
                     }
                     state = 1;
                 } else if (step == 2 && haveK) {
-                    robber();
+                    chooseRobber(gamePlayer[i], i);
                 }
             }
         }
