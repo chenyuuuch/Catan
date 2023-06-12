@@ -6,8 +6,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-// #include "panda.h"
+#include "panda.h"
 #include "structure.h"
+#include "vectorInt.h"
 
 void add_resources(player *p,enum resourceType resource, int num) //玩家, 資源種類, 數量
 {
