@@ -85,4 +85,7 @@ void shufflePlayer(player *p, int n, int times);
 void giveResource(piece *land, int index, player *p, int playerNum);
 void robber(piece *land, int *robberLoc, int locate);
 void chooseRobber(player *p, int index);
+bool testBuildRoad(player *Players, int index);
+bool testBuildSwttlement(player *Players, int index);
+bool testBuildCity(player *Players, int index);
 #endif
