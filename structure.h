@@ -78,4 +78,5 @@ void shuffle(piece *p, int n, int times);
 void shufflePort(port *p, int n, int times);
 void shuffleInt(int *p, int n, int times);
 void printMap(const piece *p, int n, const port *t, int size, int space);
+void knight_king(player *gamePlayer, int current_player, int playerNumber, int *knight_owner);
 #endif
