@@ -301,18 +301,22 @@ void setUpGame() {
 }
 int main() {
     setUpGame();
-    for (int i = 0; i < playerNumber; ++i) {
-        int state = 0;
-        int step = 0;
-        int number;
-        int haveK = 0;
-        for (int j = 0; j < gamePlayer[i].card->size; ++i) {
-            if (gamePlayer[i].card->get(gamePlayer[i].card, j) == KNIGHT) {
-                ++haveK;
-            }
-        }
-        while (1) {
-            if (state == 0) {  // doro
+    int knight_owner = 0;
+    while (1) {
+      for (int i = 0; i < playerNumber; ++i) {
+          printf("\e[38;5;%dmplayer %d \e[0m\n", TEAMCOLOR[gamePlayer[i].type], i+1);
+          int state = 0;
+          int step = 0;
+          int haveK = 0;
+          int number;
+          //gamePlayer[i].card->insert(gamePlayer[i].card, gamePlayer[i].card->size, KNIGHT);
+          for (int j = 0; j < gamePlayer[i].card->size; ++j) {
+              if (gamePlayer[i].card->get(gamePlayer[i].card, j) == KNIGHT) {
+                  ++haveK;
+              } 
+          }
+            
+            while (state == 0) {  // doro
                 printf("1.roll dice\n");
                 if (haveK) {
                     printf("2. use Knight Card\n");
@@ -323,13 +327,16 @@ int main() {
                 if (step == 1) {
                     number = rollDice();
                     if (number == 7) {
-                        robber();
+                        //robber();
                     } else {
-                        giveResource(number);
+                        //giveResource(number);
                     }
                     state = 1;
                 } else if (step == 2 && haveK) {
-                    robber();
+                    //robber();
+                    knight_king(gamePlayer, i, playerNumber, &knight_owner);
+                    haveK = 0;
+                    
                 }
             }
         }
