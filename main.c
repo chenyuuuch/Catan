@@ -334,6 +334,11 @@ int main() {
                     state = 1;
                 } else if (step == 2 && haveK) {
                     //robber();
+                    for (int j = 0; j < gamePlayer[i].card->size; ++j) {
+                        if (gamePlayer[i].card->get(gamePlayer[i].card, j) == KNIGHT) {
+                            gamePlayer[i].card->remove(gamePlayer[i].card, j);
+                        } 
+                    }
                     knight_king(gamePlayer, i, playerNumber, &knight_owner);
                     haveK = 0;
                     
