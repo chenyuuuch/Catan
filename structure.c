@@ -444,3 +444,21 @@ void giveResource(piece *land, int index, player *p, int playerNum) {
         }
     }
 }
+void knight_king(player *gamePlayer, int current_player, int playerNumber, int *knight_owner){
+  ++gamePlayer[current_player].knight;
+  int more_knight_out = 0;
+
+  for(int j = 0; j < playerNumber; ++j){
+    if(gamePlayer[current_player].knight > gamePlayer[j].knight){
+      ++more_knight_out;
+    }
+  }
+
+  //printf("player%d's outknight is more than %d player(s)\n", i+1, more_knight_out);
+  if(more_knight_out == playerNumber - 1 && gamePlayer[current_player].knight >= 3){
+    *knight_owner = current_player+1;
+    printf("Knight owner is player %d.\n",*knight_owner);
+    return ;
+  }
+  return;
+}
