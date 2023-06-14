@@ -302,6 +302,7 @@ void setUpGame() {
 int main() {
     setUpGame();
     int knight_owner = 0;
+    int num = 0; //抽道第幾張發展卡
     while (1) {
       for (int i = 0; i < playerNumber; ++i) {
           printf("\e[38;5;%dmplayer %d \e[0m\n", TEAMCOLOR[gamePlayer[i].type], i+1);
@@ -309,43 +310,81 @@ int main() {
           int step = 0;
           int haveK = 0;
           int number;
-          //gamePlayer[i].card->insert(gamePlayer[i].card, gamePlayer[i].card->size, KNIGHT);
           for (int j = 0; j < gamePlayer[i].card->size; ++j) {
               if (gamePlayer[i].card->get(gamePlayer[i].card, j) == KNIGHT) {
                   ++haveK;
               } 
           }
-            
+          printf("SCORE: %d\n", gamePlayer[i].Score);
             while (state == 0) {  // doro
+                //printMap(land, 19, tradePort, MAPSIZE, SEASIZE);
                 printf("1.roll dice\n");
                 if (haveK) {
                     printf("2. use Knight Card\n");
                 }
+                //if(其他發展卡)
+                //printf
                 printf("your step:");
                 scanf("%d", &step);
 
                 if (step == 1) {
                     number = rollDice();
-                    if (number == 7) {
-                        //robber();
-                    } else {
-                        //giveResource(number);
+                    if (number == 7 || number == 12) {
+                        //robber
+                        printf("ROBBER\n");
+                    }
+                    else{
+                        giveResource(number, land, gamePlayer);
                     }
                     state = 1;
-                } else if (step == 2 && haveK) {
-                    //robber();
-                    for (int j = 0; j < gamePlayer[i].card->size; ++j) {
-                        if (gamePlayer[i].card->get(gamePlayer[i].card, j) == KNIGHT) {
-                            gamePlayer[i].card->remove(gamePlayer[i].card, j);
-                            break;
-                        } 
-                    }
+                } 
+                else if (step == 2 && haveK) {
+                    //robberk
                     knight_king(gamePlayer, i, playerNumber, &knight_owner);
                     haveK = 0;
-                    
+                }
+                //else if (其他發展卡)
+                //進入他的函式
+                while (state == 1) { //while骰過骰子
+                    gamePlayer[i].resource[0] = 10;
+                    printf("    1. continue\n");
+                    printf("    2. trade with bank\n");
+                    printf("    3. build\n"); 
+                    printf("your step:");
+                    scanf("%d", &step);
+                    if (step == 1)
+                        break;
+                    else if (step == 2){
+                        trade(i, gamePlayer, tradePort);
+                    }
+                    else if (step == 3){
+                        printf("        1. city\n");
+                        printf("        2. house\n");
+                        printf("        3. road\n");
+                        printf("        4. draw develop card\n");
+                        printf("your step:");
+                        scanf("%d", &step);
+                        if(step == 1){
+                            //build_city
+                            gamePlayer[i].Score += 1; //原本的房子要拆掉？
+                        }
+                        else if(step == 2){
+                            //build_village
+                            gamePlayer[i].Score += 1;
+                        }
+                        else if(step == 3){
+                            //build_road
+                            gamePlayer[i].Score += 1;
+                        }
+                        else if(step == 4){
+                            draw_devCard(gamePlayer , developCard, num);
+                        }
+                    }
                 }
             }
+          if(!someone_win(gamePlayer, playerNumber, knight_owner)){
+            break;
         }
+      }
     }
-    // rollDice();
 }
